@@ -9,7 +9,7 @@ export default async function Home() {
   return (
     <>
       <div className="m-8">
-        {posts.map((post) => (
+        {posts?.map((post) => (
           <>
             <div className="bg-gray-400">
               <div>{post.title}</div>
@@ -19,7 +19,7 @@ export default async function Home() {
         ))}
         <Link href={"/pages/AddPost"}> Enter to add your post</Link>
         <Link href={"/pages/auth/signUp"}> Enter to sign Up</Link>
-        {users.map((user) => (
+        {users?.map((user) => (
           <>
             <div className="bg-red-300">
               <div>{user.email}</div>
