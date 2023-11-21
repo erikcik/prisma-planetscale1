@@ -11,12 +11,15 @@ const AddPostForm = () => {
     if (!title || !content) {
       return alert("enter your post input dumbass");
     }
-
-    await fetch("/api/add-post", {
-      method: "POST",
-      headers: { "Content-Type": "application/json," },
-      body: JSON.stringify({ title, content }),
-    });
+    try {
+      await fetch("/api/add-post", {
+        method: "POST",
+        headers: { "Content-Type": "application/json," },
+        body: JSON.stringify({ title, content }),
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

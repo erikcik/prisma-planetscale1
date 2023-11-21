@@ -10,25 +10,29 @@ const SignUpForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    const response = await fetch("/api/add-user", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application-json",
-      },
-      body: JSON.stringify({ email, password }),
-    });
-    const signInResponse = await signIn("credentials", {
-      email,
-      password,
-      redirect: false,
-    });
-    if (!signInResponse || signInResponse.ok !== true) {
-      alert("no");
-    } else {
-      router.push("/");
-      router.refresh();
+    try {
+      const response = await fetch("/api/add-user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application-json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      const signInResponse = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+      if (!signInResponse || signInResponse.ok !== true) {
+        alert("no");
+      } else {
+        router.push("/");
+        router.refresh();
+      }
+    } catch (error) {
+      console.log(error);
     }
+
     console.log(email, password);
   };
   return (
