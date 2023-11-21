@@ -18,7 +18,7 @@ export default async function Home() {
           </>
         ))}
         <Link href={"/pages/AddPost"}> Enter to add your post</Link>
-        <Link href={"/pages/auth/signUp"}> Enter to sign Up</Link>
+        <Link href={"/pages/auth/signUp"}> Enter to sign Upp</Link>
         {users?.map((user) => (
           <>
             <div className="bg-red-300">
