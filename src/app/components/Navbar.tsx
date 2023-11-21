@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import React from "react";
-import { authOptions } from "../api/auth/[...nextauth]/route";
+import { authOptions } from "../utils/authOptions";
 
 const Navbar = async () => {
   const session = await getServerSession(authOptions);
