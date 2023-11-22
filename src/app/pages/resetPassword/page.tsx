@@ -15,7 +15,7 @@ const ResetPasswordPage = async ({ searchParams }: ResetPasswordPageProps) => {
       },
     });
     if (!user) {
-      return <div>Invalid Token bruh</div>;
+      return <div>Invalid Token bruhh</div>;
     }
     return (
       <ChangePasswordForm resetPasswordToken={searchParams.token as string} />
