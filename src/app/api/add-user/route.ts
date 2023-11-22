@@ -52,8 +52,7 @@ export async function POST(request: Request) {
             subject: "Verify your email adress",
             react: VerifyEmailTemplate({ email, emailVerificationToken}) as React.ReactElement,
           });
-          return "Password reset email sent"
-        return NextResponse.json(userCreation, {status: 201})
+        return NextResponse.json(userCreation, {status: 201,})
     }catch(error){
         console.error("Failed to create the user", error); //can show the error of the conosle by console.error
         return new Response(JSON.stringify({error: "Internal Baya kötü bişi oldu"}), {
