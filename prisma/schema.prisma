@@ -13,12 +13,20 @@ model Post {
   title     String
   content   String
   createdAt DateTime @default(now())
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+
+  @@index([authorId])
 }
 
 model User {
   id           String @id @default(cuid())
   email        String @unique
   passwordHash String
+  posts        Post[]
+
+  friends  User[] @relation("UserFriends")
+  friendOf User[] @relation("UserFriends")
 
   resetPasswordToken       String?   @unique
   resetPasswordTokenExpiry DateTime?

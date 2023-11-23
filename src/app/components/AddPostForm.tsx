@@ -1,10 +1,19 @@
 "use client";
 
+import { getServerSession } from "next-auth";
 import React, { useState } from "react";
+import { authOptions } from "../utils/authOptions";
+import { useRouter } from "next/navigation";
+import prisma from "../lib/prisma";
 
-const AddPostForm = () => {
+type AddPostFormProps = {
+  postAuthorEmail: string | undefined;
+};
+
+const AddPostForm = ({ postAuthorEmail }: AddPostFormProps) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -15,7 +24,7 @@ const AddPostForm = () => {
       await fetch("/api/add-post", {
         method: "POST",
         headers: { "Content-Type": "application/json," },
-        body: JSON.stringify({ title, content }),
+        body: JSON.stringify({ title, content, authorEmail: postAuthorEmail }),
       });
     } catch (error) {
       console.log(error);
