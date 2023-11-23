@@ -9,12 +9,13 @@ generator client {
 }
 
 model Post {
-  id        String   @id @default(cuid())
+  id        String     @id @default(cuid())
   title     String
   content   String
-  createdAt DateTime @default(now())
-  author    User     @relation(fields: [authorId], references: [id])
+  createdAt DateTime   @default(now())
+  author    User       @relation(fields: [authorId], references: [id])
   authorId  String
+  PostView  PostView[]
 
   @@index([authorId])
 }
@@ -31,6 +32,21 @@ model User {
   resetPasswordToken       String?   @unique
   resetPasswordTokenExpiry DateTime?
 
-  emailVerified          Boolean @default(false)
-  emailVerificationToken String? @unique
+  emailVerified          Boolean    @default(false)
+  emailVerificationToken String?    @unique
+  PostView               PostView[]
+}
+
+model PostView {
+  id        String   @id @default(cuid())
+  postId    String
+  userId    String
+  visitedAt DateTime @default(now())
+
+  post Post @relation(fields: [postId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([postId, userId]) // Ensure each combination of post and user is unique
+  @@index([postId])
+  @@index([userId])
 }
