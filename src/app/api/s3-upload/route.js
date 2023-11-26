@@ -13,12 +13,25 @@ const s3Client = new S3Client({
 async function uploadFileToS3(file , fileName){
     const fileBuffer = file
     console.log(fileName)
+
+     const params = {
+         Bucket: process.env.AWS_S3_BUCKET_NAME,
+         Key: `${fileName}`, //if I want to create folders withing the s3 bucket to utilize the s3 bucket for different project
+         //i can add file/ to initilize the folder name
+         Body: fileBuffer,
+         ContentType: "image/jpeg"
+     }
+
+     const command = new PutObjectCommand(params)
+
+     await s3Client.send(command)
+     return fileName
 }
 
 export async function POST(request) {
     try{
         const formData = await request.formData()
-        const file = formData.get("file")
+        const file = formData.get("file") //requesting to getting th data with file format that should be named speciffly file when sending
 
         if(!file){
             return NextResponse.json({error: "File is required"}, {status: 400})
@@ -27,7 +40,7 @@ export async function POST(request) {
         const buffer = Buffer.from(await file.arrayBuffer())
         const fileName = await uploadFileToS3(buffer,file.name)
 
-        return NextResponse.json({success: true, fileName})
+        return NextResponse.json({success: true, imageUrl: `https://erayblog.s3.eu-north-1.amazonaws.com/${fileName}`})
 
     }catch(error){
         return NextResponse.json(error)
