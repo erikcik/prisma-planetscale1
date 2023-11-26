@@ -1,9 +1,18 @@
 import { getSingleUser } from "@/app/actions/get-single-user";
+import prisma from "@/app/lib/prisma";
 import Link from "next/link";
 import React from "react";
 
 const page = async ({ params }: { params: { id: string } }) => {
   const user = await getSingleUser(params.id);
+  const userFavoritePosts = await prisma.user.findUnique({
+    where: {
+      id: params.id,
+    },
+    include: {
+      favoritePosts: true,
+    },
+  });
   return (
     <div className="m-40">
       <div>{user?.email}</div>
@@ -30,6 +39,16 @@ const page = async ({ params }: { params: { id: string } }) => {
               <Link href={"/pages/profile/" + friend.id}>
                 View their profile
               </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        Liked Posts
+        <ul>
+          {userFavoritePosts?.favoritePosts.map((posts) => (
+            <li key={posts.id} className="bg-green-700">
+              {posts.title}{" "}
             </li>
           ))}
         </ul>

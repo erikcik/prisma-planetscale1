@@ -2,3 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Add this CSS in your stylesheet (e.g., App.css) */
+
+.star-rating span {
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .star-rating span:hover {
+    transform: scale(1.2);
+  }
+  

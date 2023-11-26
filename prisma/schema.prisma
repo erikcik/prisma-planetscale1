@@ -9,22 +9,33 @@ generator client {
 }
 
 model Post {
-  id        String     @id @default(cuid())
+  id        String   @id @default(cuid())
   title     String
   content   String
-  createdAt DateTime   @default(now())
-  author    User       @relation(fields: [authorId], references: [id])
-  authorId  String
-  PostView  PostView[]
+  createdAt DateTime @default(now())
+
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String
+
+  PostView PostView[]
+
+  favoritedBy User[] @relation("UserFavorites")
+
+  PostList PostList[] @relation("PostLists")
+
+  Comments Comments[]
 
   @@index([authorId])
 }
 
 model User {
-  id           String @id @default(cuid())
-  email        String @unique
-  passwordHash String
-  posts        Post[]
+  id            String @id @default(cuid())
+  email         String @unique
+  passwordHash  String
+  posts         Post[]
+  favoritePosts Post[] @relation("UserFavorites")
+
+  postLists PostList[]
 
   friends  User[] @relation("UserFriends")
   friendOf User[] @relation("UserFriends")
@@ -35,6 +46,8 @@ model User {
   emailVerified          Boolean    @default(false)
   emailVerificationToken String?    @unique
   PostView               PostView[]
+
+  Comments Comments[]
 }
 
 model PostView {
@@ -46,7 +59,37 @@ model PostView {
   post Post @relation(fields: [postId], references: [id])
   user User @relation(fields: [userId], references: [id])
 
-  @@unique([postId, userId]) // Ensure each combination of post and user is unique
   @@index([postId])
   @@index([userId])
+}
+
+model PostList {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  createdAt   DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  Posts Post[] @relation("PostLists")
+
+  @@index([userId])
+}
+
+model Comments {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  rating    Int
+  createdAt DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  postId String
+  post   Post   @relation(fields: [postId], references: [id])
+
+  @@index([userId])
+  @@index([postId])
 }
