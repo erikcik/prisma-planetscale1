@@ -6,6 +6,7 @@ import AddCommentForm from "@/app/components/post/AddCommentForm";
 import prisma from "@/app/lib/prisma";
 import { authOptions } from "@/app/utils/authOptions";
 import { getServerSession } from "next-auth";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -39,6 +40,12 @@ const page = async ({ params }: { params: { id: string } }) => {
   return (
     <div>
       <div> {post?.title}</div>
+      <Image
+        src={post?.imageUrl ? post?.imageUrl : ""}
+        width={500}
+        height={500}
+        alt="bruuuuh"
+      ></Image>
       <div className=""></div>
       <AddFavoriteButton userId={sessionEmailId} postId={params.id} />
       {

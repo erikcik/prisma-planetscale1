@@ -8,11 +8,21 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      keyframes: {
+        wave: {
+          '0%': { transform: 'translateY(20%)', opacity: '0', },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+      },
+      animation: {
+        'waving-hand': 'wave 2s '
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+
     },
   },
   plugins: [],

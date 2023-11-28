@@ -25,10 +25,10 @@ export default async function Home() {
   return (
     <>
       <div className="m-8">
-        <div className="text-3xl font-bold">DEMO VERSION OF BLOG</div>
+        <div className="text-3xl font-bold bg-red-1">DEMO VERSION OF BLOG</div>
         {posts?.map((post) => (
           <>
-            <div className="bg-gray-400">
+            <div className="bg-gray-400 animate-waving-hand">
               <div>{post.title}</div>
               <Link href={"/pages/" + post.id}>To your Link</Link>
             </div>
