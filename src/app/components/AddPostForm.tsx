@@ -37,6 +37,7 @@ const AddPostForm = ({ postAuthorEmail }: AddPostFormProps) => {
     } catch (error) {
       console.log(error);
     }
+    //if there is not title or content inputted, return a alert
     if (!title || !content) {
       return alert("enter your post input dumbass");
     }

@@ -4,10 +4,23 @@ import bcrypt from "bcryptjs"
 import crypto from "crypto"
 import { sendEmail } from "@/app/actions/email-send"
 import { VerifyEmailTemplate } from "@/app/email-templates/verification-email"
+
+function GetRandomisedProfilePictures() {
+    const randomImages = [
+      "https://erayblog.s3.eu-north-1.amazonaws.com/indir.jpg",
+      "https://erayblog.s3.eu-north-1.amazonaws.com/indir+(3).jpg",
+      "https://erayblog.s3.eu-north-1.amazonaws.com/indir+(2).jpg",
+      "https://erayblog.s3.eu-north-1.amazonaws.com/indir+(1).jpg",
+      "https://erayblog.s3.eu-north-1.amazonaws.com/814fdf56146a585f6395f871ef919415.jpg",
+    ];
+    const randomIndex = Math.floor(Math.random() * randomImages.length);
+    return randomImages[randomIndex];
+  }
+
 export async function POST(request: Request) {
     try{
         const body = await request.json()
-        const {email, password} = body
+        const {email, password, imageUrl} = body
         if(!email || !password) {
             return new Response(JSON.stringify({error: "you need to enter email or password my man"}), {
                 status: 400,
@@ -33,7 +46,8 @@ export async function POST(request: Request) {
         const userCreation = await prisma.user.create({
             data: {
                 email,
-                passwordHash
+                passwordHash,
+                profilePicture: imageUrl || GetRandomisedProfilePictures()
             }
         })
         const emailVerificationToken = crypto.randomBytes(32).toString("base64url"); //base64url is safe for browser to read
